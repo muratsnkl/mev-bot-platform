@@ -1,20 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
 import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Packages from './pages/Packages';
-import Layout from './components/Layout';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Layout><Home /></Layout>} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
-        <Route path="/packages" element={<Layout><Packages /></Layout>} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="paketler" element={<Packages />} />
+        </Route>
       </Routes>
     </Router>
   );
