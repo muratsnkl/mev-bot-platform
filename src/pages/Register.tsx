@@ -1,41 +1,77 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { SparklesIcon } from '@heroicons/react/24/outline';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Register() {
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
+  const [error, setError] = useState('');
+  const { register } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Form gönderme işlemleri
+    
+    if (formData.password !== formData.confirmPassword) {
+      setError('Şifreler eşleşmiyor');
+      return;
+    }
+
+    try {
+      setError('');
+      await register(formData.name, formData.email, formData.password);
+      navigate('/dashboard');
+    } catch (err) {
+      setError('Kayıt olurken bir hata oluştu. Lütfen tekrar deneyin.');
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <SparklesIcon className="h-12 w-12 text-blue-500" />
-        </div>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-white">
-          AI MEV Bot'a Hoş Geldiniz
+          Yeni Hesap Oluşturun
         </h2>
         <p className="mt-2 text-center text-sm text-gray-400">
-          Yapay zeka destekli trading deneyimine başlamak için hesap oluşturun.{' '}
-          <Link to="/login" className="font-medium text-blue-500 hover:text-blue-400">
-            Zaten hesabınız var mı?
+          Zaten hesabınız var mı?{' '}
+          <Link to="/giris" className="font-medium text-blue-500 hover:text-blue-400">
+            Giriş yapın
           </Link>
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="bg-white/5 py-8 px-4 shadow-xl ring-1 ring-white/10 sm:rounded-lg sm:px-10">
+          {error && (
+            <div className="mb-4 rounded-md bg-red-500 bg-opacity-10 p-4">
+              <p className="text-sm text-red-400">{error}</p>
+            </div>
+          )}
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+              <label htmlFor="name" className="block text-sm font-medium text-white">
+                Ad Soyad
+              </label>
+              <div className="mt-1">
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-white">
                 E-posta Adresi
               </label>
               <div className="mt-1">
@@ -45,15 +81,15 @@ export default function Register() {
                   type="email"
                   autoComplete="email"
                   required
-                  className="block w-full appearance-none rounded-md border border-gray-700 bg-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm text-white"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300">
+              <label htmlFor="password" className="block text-sm font-medium text-white">
                 Şifre
               </label>
               <div className="mt-1">
@@ -63,15 +99,15 @@ export default function Register() {
                   type="password"
                   autoComplete="new-password"
                   required
-                  className="block w-full appearance-none rounded-md border border-gray-700 bg-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm text-white"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-white">
                 Şifre Tekrar
               </label>
               <div className="mt-1">
@@ -81,54 +117,40 @@ export default function Register() {
                   type="password"
                   autoComplete="new-password"
                   required
-                  className="block w-full appearance-none rounded-md border border-gray-700 bg-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm text-white"
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
                 />
               </div>
+            </div>
+
+            <div className="flex items-center">
+              <input
+                id="terms"
+                name="terms"
+                type="checkbox"
+                required
+                className="h-4 w-4 rounded border-gray-300 text-blue-500 focus:ring-blue-500"
+              />
+              <label htmlFor="terms" className="ml-2 block text-sm text-gray-300">
+                <span>
+                  <Link to="/kullanim-kosullari" className="text-blue-500 hover:text-blue-400">
+                    Kullanım Koşulları
+                  </Link>
+                  'nı okudum ve kabul ediyorum
+                </span>
+              </label>
             </div>
 
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
               >
-                Hesap Oluştur
+                Kayıt Ol
               </button>
             </div>
           </form>
-
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-600" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="bg-gray-800 px-2 text-gray-400">AI Destekli Özellikler</span>
-              </div>
-            </div>
-
-            <div className="mt-6 space-y-4">
-              <div className="flex items-center">
-                <SparklesIcon className="h-5 w-5 text-blue-500" />
-                <p className="ml-3 text-sm text-gray-300">
-                  Yapay zeka ile optimize edilmiş trading stratejileri
-                </p>
-              </div>
-              <div className="flex items-center">
-                <SparklesIcon className="h-5 w-5 text-blue-500" />
-                <p className="ml-3 text-sm text-gray-300">
-                  Gerçek zamanlı AI destekli piyasa analizi
-                </p>
-              </div>
-              <div className="flex items-center">
-                <SparklesIcon className="h-5 w-5 text-blue-500" />
-                <p className="ml-3 text-sm text-gray-300">
-                  Derin öğrenme ile sürekli gelişen sistem
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

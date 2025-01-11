@@ -1,40 +1,49 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { SparklesIcon, BoltIcon, ChartBarIcon } from '@heroicons/react/24/outline';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Login() {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Form gönderme işlemleri
+    try {
+      setError('');
+      await login(email, password);
+      navigate('/dashboard');
+    } catch (err) {
+      setError('Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.');
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <SparklesIcon className="h-12 w-12 text-blue-500" />
-        </div>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-white">
-          AI MEV Bot'a Giriş Yapın
+          Hesabınıza Giriş Yapın
         </h2>
         <p className="mt-2 text-center text-sm text-gray-400">
-          Yapay zeka destekli trading deneyiminize devam edin.{' '}
-          <Link to="/register" className="font-medium text-blue-500 hover:text-blue-400">
-            Henüz hesabınız yok mu?
+          Hesabınız yok mu?{' '}
+          <Link to="/kayit" className="font-medium text-blue-500 hover:text-blue-400">
+            Hemen ücretsiz kayıt olun
           </Link>
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="bg-white/5 py-8 px-4 shadow-xl ring-1 ring-white/10 sm:rounded-lg sm:px-10">
+          {error && (
+            <div className="mb-4 rounded-md bg-red-500 bg-opacity-10 p-4">
+              <p className="text-sm text-red-400">{error}</p>
+            </div>
+          )}
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+              <label htmlFor="email" className="block text-sm font-medium text-white">
                 E-posta Adresi
               </label>
               <div className="mt-1">
@@ -44,15 +53,15 @@ export default function Login() {
                   type="email"
                   autoComplete="email"
                   required
-                  className="block w-full appearance-none rounded-md border border-gray-700 bg-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm text-white"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300">
+              <label htmlFor="password" className="block text-sm font-medium text-white">
                 Şifre
               </label>
               <div className="mt-1">
@@ -62,9 +71,9 @@ export default function Login() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="block w-full appearance-none rounded-md border border-gray-700 bg-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm text-white"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -75,7 +84,7 @@ export default function Login() {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="h-4 w-4 rounded border-gray-300 text-blue-500 focus:ring-blue-500"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-300">
                   Beni Hatırla
@@ -83,7 +92,7 @@ export default function Login() {
               </div>
 
               <div className="text-sm">
-                <Link to="/forgot-password" className="font-medium text-blue-500 hover:text-blue-400">
+                <Link to="/sifremi-unuttum" className="font-medium text-blue-500 hover:text-blue-400">
                   Şifremi Unuttum
                 </Link>
               </div>
@@ -92,44 +101,12 @@ export default function Login() {
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
               >
                 Giriş Yap
               </button>
             </div>
           </form>
-
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-600" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="bg-gray-800 px-2 text-gray-400">AI Trading Avantajları</span>
-              </div>
-            </div>
-
-            <div className="mt-6 space-y-4">
-              <div className="flex items-center">
-                <SparklesIcon className="h-5 w-5 text-blue-500" />
-                <p className="ml-3 text-sm text-gray-300">
-                  %99.8 AI işlem doğruluğu ile maksimum kazanç
-                </p>
-              </div>
-              <div className="flex items-center">
-                <BoltIcon className="h-5 w-5 text-blue-500" />
-                <p className="ml-3 text-sm text-gray-300">
-                  Milisaniyeler içinde AI destekli kararlar
-                </p>
-              </div>
-              <div className="flex items-center">
-                <ChartBarIcon className="h-5 w-5 text-blue-500" />
-                <p className="ml-3 text-sm text-gray-300">
-                  Derin öğrenme ile sürekli gelişen stratejiler
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
