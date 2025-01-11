@@ -9,8 +9,28 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Geçerli bir e-posta adresi giriniz');
+      return false;
+    }
+
+    if (password.length < 6) {
+      setError('Şifre en az 6 karakter olmalıdır');
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       setError('');
       await login(email, password);

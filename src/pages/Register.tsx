@@ -13,11 +13,35 @@ export default function Register() {
   const { register } = useAuth();
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    if (formData.name.length < 3) {
+      setError('Ad Soyad en az 3 karakter olmalıdır');
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Geçerli bir e-posta adresi giriniz');
+      return false;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Şifre en az 6 karakter olmalıdır');
+      return false;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Şifreler eşleşmiyor');
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (formData.password !== formData.confirmPassword) {
-      setError('Şifreler eşleşmiyor');
+    if (!validateForm()) {
       return;
     }
 
