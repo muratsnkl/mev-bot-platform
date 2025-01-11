@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   ArrowTrendingUpIcon,
   BoltIcon,
@@ -9,8 +8,6 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('overview');
-
   return (
     <div className="min-h-screen bg-gray-900">
       <main>
