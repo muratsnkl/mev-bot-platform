@@ -1,158 +1,175 @@
+import { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import {
-  ArrowTrendingUpIcon,
-  BoltIcon,
-  ChartBarIcon,
-  CpuChipIcon,
   CurrencyDollarIcon,
-  SparklesIcon,
+  ArrowTrendingUpIcon,
+  ClockIcon,
+  ChartBarIcon
 } from '@heroicons/react/24/outline';
 
+// İstatistik kartları için veri
+const stats = [
+  { name: 'Toplam İşlem', value: '₺124,592', icon: CurrencyDollarIcon, change: '+12.3%', changeType: 'increase' },
+  { name: 'Aktif İşlemler', value: '23', icon: ArrowTrendingUpIcon, change: '+5.4%', changeType: 'increase' },
+  { name: 'Ortalama İşlem Süresi', value: '2.4s', icon: ClockIcon, change: '-3.2%', changeType: 'decrease' },
+  { name: 'Başarı Oranı', value: '%94.5', icon: ChartBarIcon, change: '+4.1%', changeType: 'increase' },
+];
+
+// Son işlemler için örnek veri
+const recentTransactions = [
+  {
+    id: 1,
+    type: 'Alım',
+    token: 'ETH/USDT',
+    amount: '2.5 ETH',
+    price: '₺62,450',
+    status: 'Başarılı',
+    date: '2 dakika önce',
+  },
+  {
+    id: 2,
+    type: 'Satım',
+    token: 'BTC/USDT',
+    amount: '0.15 BTC',
+    price: '₺89,230',
+    status: 'Başarılı',
+    date: '5 dakika önce',
+  },
+  {
+    id: 3,
+    type: 'Alım',
+    token: 'BNB/USDT',
+    amount: '10 BNB',
+    price: '₺12,450',
+    status: 'İşlemde',
+    date: '8 dakika önce',
+  },
+  {
+    id: 4,
+    type: 'Satım',
+    token: 'ETH/USDT',
+    amount: '1.8 ETH',
+    price: '₺45,680',
+    status: 'Başarılı',
+    date: '15 dakika önce',
+  },
+];
+
 export default function Dashboard() {
+  const { user } = useAuth();
+  const [selectedTimeRange, setSelectedTimeRange] = useState('today');
+
   return (
-    <div className="min-h-screen bg-gray-900">
-      <main>
-        {/* AI Performans Özeti */}
-        <div className="relative isolate overflow-hidden">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8 py-24 sm:py-32">
-            <div className="mx-auto max-w-2xl lg:mx-0">
-              <h2 className="text-base font-semibold leading-8 text-blue-400">AI Performans Analizi</h2>
-              <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                Yapay Zeka Destekli Trading İstatistikleriniz
-              </p>
-              <p className="mt-6 text-lg leading-8 text-gray-300">
-                AI MEV botunuzun performansını ve kazançlarınızı gerçek zamanlı olarak takip edin.
-                Yapay zeka modellerimiz sürekli öğrenerek stratejilerinizi optimize eder.
-              </p>
-            </div>
+    <div className="py-6">
+      {/* Başlık */}
+      <div className="px-4 sm:px-6 lg:px-8">
+        <h1 className="text-2xl font-semibold text-gray-900">Hoş Geldiniz, {user?.name}</h1>
+        <p className="mt-2 text-sm text-gray-700">
+          İşlemlerinizi ve performansınızı buradan takip edebilirsiniz.
+        </p>
+      </div>
 
-            {/* İstatistikler */}
-            <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 text-white sm:mt-20 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-              {stats.map((stat) => (
-                <div key={stat.id} className="flex flex-col gap-y-3 border-l border-white/10 pl-6">
-                  <dt className="text-sm leading-6 text-gray-300">{stat.name}</dt>
-                  <dd className="order-first text-3xl font-semibold tracking-tight">
-                    {stat.value}
-                    {stat.unit && <span className="text-sm text-gray-300 ml-1">{stat.unit}</span>}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+      {/* Zaman aralığı seçici */}
+      <div className="mt-6 px-4 sm:px-6 lg:px-8">
+        <div className="sm:flex sm:items-center">
+          <div className="sm:flex-auto">
+            <select
+              value={selectedTimeRange}
+              onChange={(e) => setSelectedTimeRange(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+            >
+              <option value="today">Bugün</option>
+              <option value="week">Bu Hafta</option>
+              <option value="month">Bu Ay</option>
+              <option value="year">Bu Yıl</option>
+            </select>
           </div>
         </div>
+      </div>
 
-        {/* AI Analiz Grafikleri */}
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2">
-            {/* AI Performans Grafiği */}
-            <div className="bg-white/5 p-6 rounded-2xl">
-              <h3 className="text-lg font-semibold text-white mb-4">
-                AI Trading Performansı
-                <span className="ml-2 inline-flex items-center rounded-md bg-green-400/10 px-2 py-1 text-xs font-medium text-green-400 ring-1 ring-inset ring-green-400/20">
-                  +15.8% bugün
-                </span>
-              </h3>
-              <div className="h-80 bg-gray-800/50 rounded-lg flex items-center justify-center">
-                <p className="text-gray-400">AI Performans Grafiği</p>
-              </div>
+      {/* İstatistik kartları */}
+      <div className="mt-8 px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((item) => (
+            <div
+              key={item.name}
+              className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
+            >
+              <dt>
+                <div className="absolute rounded-md bg-blue-500 p-3">
+                  <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                </div>
+                <p className="ml-16 truncate text-sm font-medium text-gray-500">{item.name}</p>
+              </dt>
+              <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
+                <p className="text-2xl font-semibold text-gray-900">{item.value}</p>
+                <p
+                  className={`ml-2 flex items-baseline text-sm font-semibold ${
+                    item.changeType === 'increase' ? 'text-green-600' : 'text-red-600'
+                  }`}
+                >
+                  {item.change}
+                </p>
+              </dd>
             </div>
+          ))}
+        </div>
+      </div>
 
-            {/* AI Risk Analizi */}
-            <div className="bg-white/5 p-6 rounded-2xl">
-              <h3 className="text-lg font-semibold text-white mb-4">
-                AI Risk Analizi
-                <span className="ml-2 inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-400/20">
-                  Düşük Risk
-                </span>
-              </h3>
-              <div className="h-80 bg-gray-800/50 rounded-lg flex items-center justify-center">
-                <p className="text-gray-400">Risk Analiz Grafiği</p>
-              </div>
+      {/* Son işlemler tablosu */}
+      <div className="mt-8 px-4 sm:px-6 lg:px-8">
+        <h2 className="text-lg font-medium leading-6 text-gray-900">Son İşlemler</h2>
+        <div className="mt-4 flow-root">
+          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle">
+              <table className="min-w-full divide-y divide-gray-300">
+                <thead>
+                  <tr>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tür</th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Token</th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Miktar</th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Fiyat</th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Durum</th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tarih</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  {recentTransactions.map((transaction) => (
+                    <tr key={transaction.id}>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <span
+                          className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
+                            transaction.type === 'Alım'
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-red-100 text-red-800'
+                          }`}
+                        >
+                          {transaction.type}
+                        </span>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transaction.token}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transaction.amount}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transaction.price}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <span
+                          className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
+                            transaction.status === 'Başarılı'
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-yellow-100 text-yellow-800'
+                          }`}
+                        >
+                          {transaction.status}
+                        </span>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transaction.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-
-        {/* AI Özellikler */}
-        <div className="mx-auto max-w-7xl px-6 lg:px-8 mt-16">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => (
-              <div
-                key={feature.name}
-                className="relative flex gap-x-4 rounded-xl bg-white/5 p-6 ring-1 ring-white/10"
-              >
-                <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-blue-500">
-                  <feature.icon className="h-6 w-6 text-white" aria-hidden="true" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-white">
-                    {feature.name}
-                    {feature.status && (
-                      <span className={classNames(
-                        feature.status === 'active' ? 'text-green-400' : 'text-yellow-400',
-                        'ml-2 text-sm'
-                      )}>
-                        • {feature.status === 'active' ? 'Aktif' : 'Öğreniyor'}
-                      </span>
-                    )}
-                  </h3>
-                  <p className="mt-2 text-sm text-gray-300">{feature.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </main>
+      </div>
     </div>
   );
-}
-
-const stats = [
-  { id: 1, name: 'AI Doğruluk Oranı', value: '99.8', unit: '%' },
-  { id: 2, name: 'Günlük İşlem Sayısı', value: '2,845' },
-  { id: 3, name: 'Ortalama Kar', value: '18.5', unit: '%' },
-  { id: 4, name: 'Toplam Kazanç', value: '₺158,420' },
-  { id: 5, name: 'Başarılı İşlemler', value: '98.9', unit: '%' },
-  { id: 6, name: 'AI Öğrenme Puanı', value: '94.5', unit: '%' },
-];
-
-const features = [
-  {
-    name: 'AI Arbitraj Motoru',
-    description: 'Yapay zeka algoritmalarımız sürekli olarak en karlı fırsatları tespit ediyor.',
-    icon: CpuChipIcon,
-    status: 'active',
-  },
-  {
-    name: 'Derin Öğrenme Modeli',
-    description: 'Piyasa koşullarına göre kendini sürekli geliştiren yapay zeka modeli.',
-    icon: SparklesIcon,
-    status: 'learning',
-  },
-  {
-    name: 'Akıllı Risk Yönetimi',
-    description: 'AI destekli risk analizi ve otomatik portföy optimizasyonu.',
-    icon: ChartBarIcon,
-    status: 'active',
-  },
-  {
-    name: 'Yüksek Frekanslı Trading',
-    description: 'Milisaniyeler içinde işlem yapan yapay zeka destekli sistem.',
-    icon: BoltIcon,
-    status: 'active',
-  },
-  {
-    name: 'AI Piyasa Analizi',
-    description: 'Gerçek zamanlı piyasa analizi ve tahmin modelleri.',
-    icon: ArrowTrendingUpIcon,
-    status: 'learning',
-  },
-  {
-    name: 'Kar Optimizasyonu',
-    description: 'Yapay zeka ile optimize edilmiş karlılık stratejileri.',
-    icon: CurrencyDollarIcon,
-    status: 'active',
-  },
-];
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
 } 

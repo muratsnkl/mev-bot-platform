@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
+import DashboardLayout from './components/DashboardLayout';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Packages from './pages/Packages';
@@ -24,9 +25,13 @@ function App() {
             <Route path="kullanim-kosullari" element={<Terms />} />
           </Route>
           <Route element={<PrivateRoute />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="profil" element={<Profile />} />
-            <Route path="ayarlar" element={<Settings />} />
+            <Route element={<DashboardLayout />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="dashboard/islemler" element={<div>İşlemler Sayfası</div>} />
+              <Route path="dashboard/cuzdan" element={<div>Cüzdan Sayfası</div>} />
+              <Route path="profil" element={<Profile />} />
+              <Route path="ayarlar" element={<Settings />} />
+            </Route>
           </Route>
           <Route path="giris" element={<Login />} />
           <Route path="kayit" element={<Register />} />
