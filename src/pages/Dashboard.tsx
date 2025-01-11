@@ -63,8 +63,8 @@ export default function Dashboard() {
     <div className="py-6">
       {/* Başlık */}
       <div className="px-4 sm:px-6 lg:px-8">
-        <h1 className="text-2xl font-semibold text-gray-900">Hoş Geldiniz, {user?.name}</h1>
-        <p className="mt-2 text-sm text-gray-700">
+        <h1 className="text-2xl font-semibold text-white">Hoş Geldiniz, {user?.name}</h1>
+        <p className="mt-2 text-sm text-gray-400">
           İşlemlerinizi ve performansınızı buradan takip edebilirsiniz.
         </p>
       </div>
@@ -76,7 +76,7 @@ export default function Dashboard() {
             <select
               value={selectedTimeRange}
               onChange={(e) => setSelectedTimeRange(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
             >
               <option value="today">Bugün</option>
               <option value="week">Bu Hafta</option>
@@ -93,19 +93,19 @@ export default function Dashboard() {
           {stats.map((item) => (
             <div
               key={item.name}
-              className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
+              className="relative overflow-hidden rounded-lg bg-gray-800 px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
             >
               <dt>
                 <div className="absolute rounded-md bg-blue-500 p-3">
                   <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
                 </div>
-                <p className="ml-16 truncate text-sm font-medium text-gray-500">{item.name}</p>
+                <p className="ml-16 truncate text-sm font-medium text-gray-400">{item.name}</p>
               </dt>
               <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
-                <p className="text-2xl font-semibold text-gray-900">{item.value}</p>
+                <p className="text-2xl font-semibold text-white">{item.value}</p>
                 <p
                   className={`ml-2 flex items-baseline text-sm font-semibold ${
-                    item.changeType === 'increase' ? 'text-green-600' : 'text-red-600'
+                    item.changeType === 'increase' ? 'text-green-400' : 'text-red-400'
                   }`}
                 >
                   {item.change}
@@ -118,50 +118,50 @@ export default function Dashboard() {
 
       {/* Son işlemler tablosu */}
       <div className="mt-8 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-lg font-medium leading-6 text-gray-900">Son İşlemler</h2>
+        <h2 className="text-lg font-medium leading-6 text-white">Son İşlemler</h2>
         <div className="mt-4 flow-root">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle">
-              <table className="min-w-full divide-y divide-gray-300">
+              <table className="min-w-full divide-y divide-gray-700">
                 <thead>
                   <tr>
-                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tür</th>
-                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Token</th>
-                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Miktar</th>
-                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Fiyat</th>
-                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Durum</th>
-                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tarih</th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-300">Tür</th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-300">Token</th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-300">Miktar</th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-300">Fiyat</th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-300">Durum</th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-300">Tarih</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
+                <tbody className="divide-y divide-gray-700 bg-gray-800">
                   {recentTransactions.map((transaction) => (
                     <tr key={transaction.id}>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <td className="whitespace-nowrap px-3 py-4 text-sm">
                         <span
                           className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
                             transaction.type === 'Alım'
-                              ? 'bg-green-100 text-green-800'
-                              : 'bg-red-100 text-red-800'
+                              ? 'bg-green-900 text-green-300'
+                              : 'bg-red-900 text-red-300'
                           }`}
                         >
                           {transaction.type}
                         </span>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transaction.token}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transaction.amount}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transaction.price}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{transaction.token}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{transaction.amount}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{transaction.price}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm">
                         <span
                           className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
                             transaction.status === 'Başarılı'
-                              ? 'bg-green-100 text-green-800'
-                              : 'bg-yellow-100 text-yellow-800'
+                              ? 'bg-green-900 text-green-300'
+                              : 'bg-yellow-900 text-yellow-300'
                           }`}
                         >
                           {transaction.status}
                         </span>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{transaction.date}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{transaction.date}</td>
                     </tr>
                   ))}
                 </tbody>
