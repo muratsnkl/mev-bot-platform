@@ -1,0 +1,365 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #c5a4f8 0%, #a674f2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo span {
+    color: #000;
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+.logo-img {
+    height: 2.5rem;
+    width: 2.5rem;
+    object-fit: contain;
+}
+
+.nav-right {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.connect-btn {
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+}
+
+.menu-btn {
+    background: #fff;
+    border: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #000;
+    line-height: 1;
+}
+
+.menu-btn::after {
+    content: "−";
+    display: block;
+    transform: scaleX(1.5);
+}
+
+.menu-btn img {
+    width: 1.25rem;
+    height: 1.25rem;
+    opacity: 1;
+    filter: brightness(0);
+}
+
+.container {
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.top-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+}
+
+.nav-left {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.nav-btn.active {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-icons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.icon-btn {
+    background: #fff;
+    border: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.icon-btn img {
+    width: 1.25rem;
+    height: 1.25rem;
+    opacity: 1;
+    filter: brightness(0.4);
+}
+
+.content-card {
+    background: #fff;
+    border-radius: 1.5rem;
+    padding: 1rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.network-selector {
+    background: #f5f5f5;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.from-network, .to-network {
+    flex: 1;
+    text-align: left;
+}
+
+.label {
+    display: block;
+    color: #666;
+    font-size: 0.875rem;
+    margin-bottom: 0.375rem;
+    font-weight: 500;
+    text-align: left;
+}
+
+.network {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff;
+    padding: 0.625rem 0.875rem;
+    border-radius: 0.875rem;
+    color: #000;
+    font-weight: 500;
+    font-size: 0.9375rem;
+}
+
+.network-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.switch-arrow {
+    color: #666;
+    font-size: 1.25rem;
+}
+
+.amount-input {
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+}
+
+.amount {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 2rem;
+    color: #000;
+    font-weight: 500;
+    padding-right: 100px;
+}
+
+.amount::placeholder {
+    color: #999;
+}
+
+.currency-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    color: #000;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    position: absolute;
+    right: 1.25rem;
+}
+
+.currency-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.dropdown-arrow {
+    color: #666;
+    font-size: 0.625rem;
+    margin-left: 0.25rem;
+}
+
+.connect-wallet-btn {
+    width: 100%;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    padding: 0.875rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0.75rem;
+    }
+    
+    .navbar {
+        padding: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .logo-img {
+        height: 2rem;
+        width: 2rem;
+    }
+
+    .logo span {
+        font-size: 1rem;
+    }
+
+    .connect-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    .menu-btn {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1.25rem;
+    }
+
+    .container {
+        max-width: 100%;
+    }
+
+    .top-navigation {
+        padding: 0;
+        margin-bottom: 1.5rem;
+    }
+
+    .nav-btn {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.875rem;
+    }
+
+    .icon-btn {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .icon-btn img {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .content-card {
+        padding: 0.875rem;
+        border-radius: 1.25rem;
+    }
+
+    .network-selector {
+        padding: 0.875rem;
+        margin-bottom: 0.5rem;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+    }
+
+    .from-network, .to-network {
+        width: 100%;
+    }
+
+    .label {
+        text-align: left;
+        margin-left: 0.25rem;
+    }
+
+    .network {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .amount-input {
+        padding: 0.875rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .amount {
+        font-size: 1.75rem;
+        padding-right: 90px;
+    }
+
+    .currency-selector {
+        padding: 0.375rem 0.625rem;
+        right: 0.875rem;
+        font-size: 0.875rem;
+    }
+
+    .connect-wallet-btn {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+} 
