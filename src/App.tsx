@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Terms from './pages/Terms';
 import ForgotPassword from './pages/ForgotPassword';
+import Checkout from './pages/Checkout';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="giris" element={<Login />} />
           <Route path="kayit" element={<Register />} />
           <Route path="sifremi-unuttum" element={<ForgotPassword />} />
+          <Route path="odeme" element={<Checkout />} />
         </Routes>
       </Router>
     </AuthProvider>

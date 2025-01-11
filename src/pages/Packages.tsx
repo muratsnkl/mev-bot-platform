@@ -1,10 +1,10 @@
 import { CheckIcon } from '@heroicons/react/24/outline';
+import { useNavigate } from 'react-router-dom';
 
 const tiers = [
   {
     name: 'Başlangıç',
     id: 'tier-basic',
-    href: '#',
     priceMonthly: '₺2,999',
     description: 'MEV bot dünyasına giriş yapmak için ideal paket.',
     features: [
@@ -19,7 +19,6 @@ const tiers = [
   {
     name: 'Professional',
     id: 'tier-professional',
-    href: '#',
     priceMonthly: '₺4,999',
     description: 'Profesyonel traderlar için gelişmiş özellikler.',
     features: [
@@ -36,7 +35,6 @@ const tiers = [
   {
     name: 'Enterprise',
     id: 'tier-enterprise',
-    href: '#',
     priceMonthly: '₺9,999',
     description: 'Kurumsal müşteriler için özel çözümler.',
     features: [
@@ -58,6 +56,12 @@ function classNames(...classes: string[]) {
 }
 
 export default function Packages() {
+  const navigate = useNavigate();
+
+  const handlePackageSelect = (tier: typeof tiers[0]) => {
+    navigate('/odeme', { state: { package: tier } });
+  };
+
   return (
     <div className="relative isolate overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 pb-96 pt-24 text-center sm:pt-32 lg:px-8">
@@ -109,17 +113,17 @@ export default function Packages() {
                       /ay
                     </span>
                   </p>
-                  <a
-                    href={tier.href}
+                  <button
+                    onClick={() => handlePackageSelect(tier)}
                     className={classNames(
                       tier.featured
                         ? 'bg-white text-blue-600 hover:bg-gray-100 focus-visible:outline-white'
                         : 'bg-blue-500 text-white hover:bg-blue-400 focus-visible:outline-blue-500',
-                      'mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+                      'mt-6 block w-full rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
                     )}
                   >
                     Paketi Seç
-                  </a>
+                  </button>
                   <ul className="mt-8 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10">
                     {tier.features.map((feature) => (
                       <li key={feature} className="flex gap-x-3">
